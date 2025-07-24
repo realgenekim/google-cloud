@@ -1,4 +1,4 @@
-(defproject genekim/google-cloud "0.3.2"
+(defproject genekim/google-cloud "0.3.3"
   :description "A library of functions for working with Google Cloud."
   ;:dependencies [[org.clojure/clojure "1.9.0"]
   ;               [environ "1.1.0"]
