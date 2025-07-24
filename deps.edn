@@ -9,5 +9,42 @@
   http-kit/http-kit   {:mvn/version "2.5.3"}
   cheshire/cheshire   {:mvn/version "5.10.1"}
   lock-key/lock-key   {:mvn/version "1.5.0"}
-  com.taoensso/timbre {:mvn/version "4.10.0"}}}
+  com.taoensso/timbre {:mvn/version "4.10.0"}}
 
+
+ :aliases {
+           :test    {:extra-paths ["test"]
+                     :extra-deps  {org.clojure/test.check {:mvn/version "1.1.0"}
+                                   io.github.cognitect-labs/test-runner
+                                   {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+                     :exec-fn     cognitect.test-runner.api/test}
+           :dev     {:extra-paths ["dev" "resources"]
+                     :extra-deps  {org.clojure/tools.namespace         {:mvn/version "1.0.0"}
+                                   djblue/portal                       {:mvn/version "0.18.0"}}}
+           :build   {:deps
+                                 {io.github.clojure/tools.build       {:git/tag "v0.6.6" :git/sha "4d41c26"}
+                                  com.google.cloud.tools/jib-core     {:mvn/version "0.20.0"}}
+                     :ns-default build
+                     :uberjar    {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.206"}}
+                                  :exec-fn      hf.depstar/uberjar
+                                  :exec-args    {:aot true}}}
+           :jib-deploy
+                    {:deps
+                                 {io.github.clojure/tools.build       {:git/tag "v0.6.6" :git/sha "4d41c26"}
+                                  com.google.cloud.tools/jib-core     {:mvn/version "0.20.0"}}
+                     :ns-default jib
+                     :uberjar    {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.206"}}
+                                  :exec-fn      hf.depstar/uberjar
+                                  :exec-args    {:aot true}}}
+           :uberjar {:jvm-opts ["-Dclojure.compiler.direct-linking=true"]
+                     :replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.206"}}
+                     :exec-fn      hf.depstar/uberjar
+                     :exec-args    {:aot true}}
+           ;; build a jar (library):
+           :jar     {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.206"}}
+                     :exec-fn      hf.depstar/jar
+                     :exec-args    {}}
+           ;; generic depstar alias, use with jar or uberjar function name:
+           :depstar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.0.206"}}
+                     :ns-default   hf.depstar
+                     :exec-args    {}}}}

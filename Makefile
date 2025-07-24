@@ -1,5 +1,11 @@
 GC=google-cloud-0.3.2.jar
 
+tests:
+	# can't run rlwrap on circleci: "terminal width zero"
+	#(export GOOGLE_APPLICATION_CREDENTIALS=$$HOME/gcloud-service-key.json; clojure -M:test)
+	(export GOOGLE_APPLICATION_CREDENTIALS=/Users/genekim/src.local/secrets/booktracker-1208-projectowner-77cd30ce65a2.json; \
+		clojure -X:test)
+
 install:
 	lein compile
 	lein install
